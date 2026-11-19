@@ -1,0 +1,23 @@
+PASS fractional cadence at 20 FPS for 3000 frames
+PASS fractional cadence at 30 FPS for 3000 frames
+PASS fractional cadence at 60 FPS for 3000 frames
+PASS fractional cadence at 120 FPS for 3000 frames
+PASS slow frames do not create catch-up bursts
+PASS resume resets an expired deadline
+PASS changing the FPS limit resets the cadence
+PASS disabled and invalid limits cannot cause an excessive wait
+PASS 60 FPS VSync does not add a second timer wait
+PASS a 120 Hz display still honours a lower 60 FPS budget
+PASS disabling VSync restores software pacing
+PASS unknown display refresh keeps the software fallback
+12 frame-pacing checks passed (scheduler tests, not measured device FPS).
+PASS Redmi Note 9 Pro keeps its original logical HUD size on the full display
+PASS HUD scaling remains valid on other display sizes
+PASS upgrade repairs the texture key and preserves unrelated preferences
+PASS sectioned configs and repeated keys receive valid defaults
+PASS upgrade clears old window dimensions and sets the 30 FPS low-memory scene profile
+PASS fresh installations receive graphics and audio defaults
+PASS android.4 installations receive the new profile with an original-config backup
+PASS later launches retain the user's graphics changes
+PASS resetting preferences restores defaults while preserving the original backup
+9 performance-profile checks passed; no Android emulator used.

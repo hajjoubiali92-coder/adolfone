@@ -1,0 +1,85 @@
+PASS single tap waits for double-tap window
+PASS selectable unit is selected on first release without holding or waiting
+PASS second tap upgrades immediate selection to similar units without an order
+PASS distant selectable taps switch selection without flushing a stale order
+PASS ground tap after immediate selection sends only the ground order
+PASS HUD interaction after selection cannot flush an unwanted unit order
+PASS drag beginning over a selectable unit pans without selecting it
+PASS two-finger tap over a selectable unit deselects without selecting first
+PASS a long hold on a selectable unit uses the held selection exactly once
+PASS placement previews do not invoke immediate unit selection
+PASS double tap selects similar units without sending the first command
+PASS double tap accepts small finger drift
+PASS distant rapid taps remain separate commands
+PASS slow repeated tap is not a double tap
+PASS drag pans and cannot turn into a long press
+PASS movement first reported on release still pans
+PASS small tap jitter does not pan
+PASS hold then drag selects a box
+PASS stationary hold selects a single unit
+PASS second tap becoming a drag cancels group selection
+PASS second tap becoming a hold selects instead
+PASS menu tap uses immediate primary press and release
+PASS menu double tap remains normal GUI input
+PASS menu slider preserves primary drag
+PASS menu touch cancels a pending world command
+PASS pinch zooms without issuing unit orders
+PASS inward pinch zooms out
+PASS clockwise twist
+PASS counterclockwise twist
+PASS twist and pinch in the same frame
+PASS two full turns cross the angle boundary smoothly
+PASS pointer-array reordering does not reverse rotation
+PASS two-finger translation does not cause spurious twist or pinch
+PASS two-finger tap deselects once after both fingers lift
+PASS two-finger tap supports either release order and reordered IDs
+PASS two-finger tap cancels a pending unit command
+PASS long two-finger hold does not deselect
+PASS late second finger cannot turn a hold into a tap
+PASS holding the last finger cancels a two-finger tap
+PASS dragging the last finger cancels a two-finger tap
+PASS pair translation and return cannot become a tap
+PASS release-only displacement cancels a two-finger tap
+PASS slight twist inside tap slop remains a two-finger tap
+PASS a held pair can rotate precisely after the tap timeout
+PASS cancelling between finger releases does not deselect
+PASS a camera drag followed by a second finger cannot deselect
+PASS remaining finger after pinch cannot pan or command
+PASS replacing a lifted finger drains the old gesture
+PASS close fingers rebase without a half-turn jump
+PASS crossing pair with missing intermediate frames rebases
+PASS small multi-touch jitter has no output
+PASS second finger over HUD cancels world gesture
+PASS multi-touch on menu cancels the pressed widget
+PASS second finger cancels an in-progress box
+PASS cancellation prevents a delayed command
+PASS cancellation releases a box without selecting
+PASS cancellation cannot click a GUI control
+PASS page or focus change discards pending input
+PASS new DOWN recovers from a missing old UP
+PASS three fingers cancel and cannot issue a command
+PASS duplicate pointer IDs cancel
+PASS arbitrary sparse pointer ID is supported
+PASS non-finite coordinates cancel safely
+PASS backward timer tick cannot trigger a hold
+PASS one build tap previews only even after the double-tap timeout
+PASS two build taps place once and never send a unit command
+PASS build drag only moves the preview
+PASS a long build hold cannot prime a placement confirmation
+PASS dragging the second build tap cancels confirmation
+PASS holding the second build tap cancels confirmation
+PASS distant or slow build taps never place
+PASS a world tap cannot confirm a newly entered build mode
+PASS a placement tap cannot become a group selection after leaving build mode
+PASS GUI interaction and cancellation discard pending build confirmation
+PASS two-finger tap in build mode deselects without placing
+PASS density-scaled tap and drag at 0.750000
+PASS two-finger tap tolerates jitter at 0.750000
+PASS density-scaled tap and drag at 1.500000
+PASS two-finger tap tolerates jitter at 1.500000
+PASS density-scaled tap and drag at 3.000000
+PASS two-finger tap tolerates jitter at 3.000000
+PASS density-scaled tap and drag at 4.000000
+PASS two-finger tap tolerates jitter at 4.000000
+PASS 10000 mixed events keep pointer ownership balanced
+84 scenarios passed; 10000 mixed events; no Android emulator used.

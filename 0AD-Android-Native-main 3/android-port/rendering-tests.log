@@ -1,0 +1,15 @@
+PASS 3D reduction leaves the Redmi fullscreen extent unchanged
+PASS small displays and disabled scaling use native resolution
+PASS odd scene sizes remain bounded and preserve aspect ratio
+PASS color and depth targets are reused across frames
+PASS scene composition covers all display edges with correct orientation and opacity
+PASS display resizing recreates attachments in safe lifetime order
+PASS unsupported depth textures fall back without repeated allocation attempts
+PASS GLES core depth support does not require an extension string
+PASS texture allocation failure releases partial resources and falls back
+PASS incomplete framebuffer falls back without a per-frame retry
+PASS texture-size limits cannot allocate an oversized target
+PASS turning off scaling releases targets and can be reversed
+PASS a resize can recover from a previous allocation failure
+PASS other renderer backends retain their native path
+14 scene-buffer checks passed; renderer services are fixtures, no emulator used.
