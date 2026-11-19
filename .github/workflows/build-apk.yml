@@ -30,22 +30,24 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK packages
-        run: |
-          yes | sdkmanager --licenses
-          sdkmanager --install "platform-tools" "platforms;android-36" "build-tools;36.0.0" "ndk;27.2.12479018"
+        with:
+          accept-android-sdk-licenses: true
+          packages: |
+            platform-tools
+            platforms;android-36
+            build-tools;36.0.0
+            ndk;27.2.12479018
 
       - name: Install host tools
-        working-directory: 0AD-Android-Native-main 3
+        working-directory: "0AD-Android-Native-main 3"
         run: bash scripts/setup-host-tools.sh
 
       - name: Check build environment
-        working-directory: 0AD-Android-Native-main 3
+        working-directory: "0AD-Android-Native-main 3"
         run: bash build-pc-baru.sh --check
 
       - name: Build APK
-        working-directory: 0AD-Android-Native-main 3
+        working-directory: "0AD-Android-Native-main 3"
         env:
           JOBS: '3'
         run: bash build-pc-baru.sh
