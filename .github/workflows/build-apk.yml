@@ -28,16 +28,17 @@ jobs:
             xz-utils unzip zip patch git openjdk-21-jdk libssl-dev \
             zlib1g-dev libffi-dev nodejs rustup
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          accept-android-sdk-licenses: true
-          packages: |
+             - name: Set up Android SDK
+               uses: android-actions/setup-android@v3
+              with:
+              cmdline-tools-version: '12266719'
+              accept-android-sdk-licenses: true          
+             packages: |
             platform-tools
             platforms;android-36
             build-tools;36.0.0
             ndk;27.2.12479018
-
+            
       - name: Install host tools
         working-directory: "0AD-Android-Native-main 3"
         run: bash scripts/setup-host-tools.sh
