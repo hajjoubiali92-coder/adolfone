@@ -1,26 +1,59 @@
-name: Android CI
+name: Build 0 A.D. APK
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
 
     steps:
-    - uses: actions/checkout@v4
-    - name: set up JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: gradle
+      - uses: actions/checkout@v4
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential clang autoconf automake \
+            libtool pkg-config ninja-build python3 curl ca-certificates \
+            xz-utils unzip zip patch git openjdk-21-jdk libssl-dev \
+            zlib1g-dev libffi-dev nodejs rustup
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: |
+            platform-tools
+            platforms;android-36
+            build-tools;36.0.0
+            ndk;27.2.12479018
+
+      - name: Install host tools
+        working-directory: 0AD-Android-Native-main 3
+        run: bash scripts/setup-host-tools.sh
+
+      - name: Check environment
+        working-directory: 0AD-Android-Native-main 3
+        run: bash build-pc-baru.sh --check
+
+      - name: Build APK
+        working-directory: 0AD-Android-Native-main 3
+        env:
+          JOBS: '3'
+        run: bash build-pc-baru.sh
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: 0ad-android-apk
+          path: |
+            0AD-Android-Native-main 3/0ad-0.28.0-android-arm64.apk
+            0AD-Android-Native-main 3/0ad-0.28.0-android-arm64.apk.sha256
+          if-no-files-found: error
