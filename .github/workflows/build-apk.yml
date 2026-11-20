@@ -28,13 +28,17 @@ jobs:
             xz-utils unzip zip patch git openjdk-21-jdk libssl-dev \
             zlib1g-dev libffi-dev nodejs rustup
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          cmdline-tools-version: '12266719'
-          accept-android-sdk-licenses: true
-          packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
-
+      - name: Install Android NDK
+        shell: bash
+        run: |
+            set -euxo pipefail
+            NDK_DIR="$ANDROID_SDK_ROOT/ndk/27.2.12479018"
+            rm -rf "$NDK_DIR"
+            sdkmanager --sdk_root="$ANDROID_SDK_ROOT" "ndk;27.2.12479018"
+            grep -E '^Pkg.Revision *= *27\.2\.12479018$' "$NDK_DIR/source.properties"
+            echo "ANDROID_NDK_ROOT=$NDK_DIR" >> "$GITHUB_ENV"
+            echo "ANDROID_NDK_HOME=$NDK_DIR" >> "$GITHUB_ENV"
+          
       - name: Install Android NDK
         run: |
           sdkmanager "ndk;27.2.12479018"
