@@ -82,6 +82,7 @@ public class LauncherActivity extends Activity {
         actions.addView(play, new LinearLayout.LayoutParams(-1, dp(46)));
         status = text(R.string.checking, 12, MUTED);
         status.setAccessibilityLiveRegion(View.ACCESSIBILITY_LIVE_REGION_POLITE);
+        status.setOnClickListener(v -> showEngineLog());
         LinearLayout.LayoutParams statusParams = new LinearLayout.LayoutParams(-1, -2);
         statusParams.topMargin = dp(14);
         actions.addView(status, statusParams);
@@ -228,6 +229,42 @@ public class LauncherActivity extends Activity {
             }
         }, "PrepareGameData");
         installer.start();
+    }
+
+    /** Show the native engine log after a game session returns or fails. */
+    private void showEngineLog() {
+        File log = new File(gameRoot(this), "logs/native.log");
+        if (!log.isFile()) {
+            new AlertDialog.Builder(this).setTitle("Log di gioco")
+                    .setMessage("Il log non è ancora stato creato. Avvia il gioco e riprova.\\n\\nPercorso: "
+                            + log.getAbsolutePath())
+                    .setPositiveButton(R.string.understood, null).show();
+            return;
+        }
+        try {
+            byte[] bytes = Files.readAllBytes(log.toPath());
+            int start = Math.max(0, bytes.length - 16000);
+            String contents = new String(bytes, start, bytes.length - start, StandardCharsets.UTF_8);
+            TextView view = new TextView(this);
+            view.setText(contents.isEmpty() ? "Il log è vuoto." : contents);
+            view.setTextIsSelectable(true);
+            view.setTextSize(11);
+            view.setPadding(dp(16), dp(12), dp(16), dp(12));
+            ScrollView scroll = new ScrollView(this);
+            scroll.addView(view);
+            new AlertDialog.Builder(this).setTitle("Ultime righe del log")
+                    .setView(scroll)
+                    .setPositiveButton("Copia", (dialog, which) -> {
+                        android.content.ClipboardManager clipboard =
+                                (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        clipboard.setPrimaryClip(android.content.ClipData.newPlainText("0 A.D. native.log", contents));
+                    })
+                    .setNegativeButton(R.string.understood, null).show();
+        } catch (Exception error) {
+            new AlertDialog.Builder(this).setTitle("Log di gioco")
+                    .setMessage("Impossibile leggere il log: " + error.getMessage())
+                    .setPositiveButton(R.string.understood, null).show();
+        }
     }
 
     private void updateUi(Runnable action) {
