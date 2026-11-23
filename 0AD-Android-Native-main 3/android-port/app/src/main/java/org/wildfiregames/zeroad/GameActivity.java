@@ -53,15 +53,28 @@ public class GameActivity extends SDLActivity {
     }
 
     @Override protected void onCreate(Bundle saved) {
-        for (String library : getLibraries()) System.loadLibrary(library);
-        nativeLoaded = true;
-        nativeSetPaths(LauncherActivity.gameRoot(this).getAbsolutePath(), getCacheDir().getAbsolutePath());
-        super.onCreate(saved);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        // SDL posts a windowed style during startup. Reapply immersive mode
-        // after that message as well as on resume/focus restoration.
-        applyFullscreen();
-        getWindow().getDecorView().post(this::applyFullscreen);
+        try {
+            for (String library : getLibraries()) System.loadLibrary(library);
+            nativeSetPaths(LauncherActivity.gameRoot(this).getAbsolutePath(), getCacheDir().getAbsolutePath());
+            nativeLoaded = true;
+            super.onCreate(saved);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            // SDL posts a windowed style during startup. Reapply immersive mode
+            // after that message as well as on resume/focus restoration.
+            applyFullscreen();
+            getWindow().getDecorView().post(this::applyFullscreen);
+        } catch (Throwable error) {
+            android.util.Log.e("0ad", "Unable to start native game engine", error);
+            nativeLoaded = false;
+            new android.app.AlertDialog.Builder(this)
+                    .setTitle("Avvio del gioco non riuscito")
+                    .setMessage(error.getClass().getSimpleName() + ": " +
+                            (error.getMessage() == null ? "errore senza dettagli" : error.getMessage()) +
+                            "\\n\\nControlla lo spazio libero e il file native.log nel launcher.")
+                    .setCancelable(false)
+                    .setPositiveButton("Torna al menu", (dialog, which) -> finish())
+                    .show();
+        }
     }
 
     private void applyFullscreen() {
